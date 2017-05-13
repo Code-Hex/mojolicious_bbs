@@ -56,7 +56,6 @@ package BBS::Migrator {
         my $self = shift;
         my $term = Term::ReadLine->new('Migration');
 
-        say $self->migrator->diff_to_real_database;
         my $yes = $term->ask_yn(
             prompt => 'Do you want to migrate?',
             default => 'y'
@@ -71,7 +70,7 @@ package BBS::Migrator {
                 # create and will return connected session.
                 my $database = $self->conf->{database}->{name};
                 my $username = $self->conf->{database}->{username};
-                my $_dbh = DBI->connect('dbi:Pg:dbname=postgres', 'postgres', '', +{ RaiseError => 1 }) or die $!;
+                my $_dbh = DBI->connect('dbi:Pg:dbname=postgres', '', '', +{ RaiseError => 1 }) or die $!;
                 if ($username) {
                     $_dbh->do("create database \"$database\" with owner $username") or die $!;
                 } else {
@@ -87,6 +86,8 @@ package BBS::Migrator {
             say "Completed";
         }
     }
+
+    __PACKAGE__->meta->make_immutable;
 };
 
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
@@ -95,16 +96,17 @@ use BBS::Model::Schema;
 main(); # Execute
 
 sub main {
-    my $sql_path = "$FindBin::Bin/../etc/sql";
-    unless (is_exist($sql_path)) {
+    my $base_dir = "$FindBin::Bin/..";
+    my $sql_path = "etc/sql";
+    unless (is_exist("${base_dir}/${sql_path}")) {
         mkdir $sql_path;
     }
 
-    my $sql_file = "$sql_path/schema_ddl.sql";
+    my $sql_file = "$base_dir/$sql_path/schema_ddl.sql";
     say "Create schema file: $sql_file";
     create_schema($sql_file);
 
-    my $migrator = BBS::Migrator->new(sql_file => $sql_file);
+    my $migrator = BBS::Migrator->new(sql_file => "${sql_path}/schema_ddl.sql");
     $migrator->migrate;
 }
 
