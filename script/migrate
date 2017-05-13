@@ -12,6 +12,7 @@ package BBS::Migrator {
     use Try::Tiny;
     use Term::UI;
     use Term::ReadLine;
+    use Git::Wrapper;
     use v5.10;
 
     use Mouse;
@@ -52,6 +53,12 @@ package BBS::Migrator {
         }
     );
 
+    has git => (
+        is      => 'ro',
+        lazy    => 1,
+        default => sub { Git::Wrapper->new("$FindBin::Bin/../") }
+    );
+
     sub migrate {
         my $self = shift;
         my $term = Term::ReadLine->new('Migration');
@@ -62,6 +69,8 @@ package BBS::Migrator {
         );
 
         if ($yes) {
+            my $created = 0; # flag
+
             # Check and create database
             my $dbh = try {
                 DBI->connect(@{ $self->dsn });
@@ -74,6 +83,7 @@ package BBS::Migrator {
                 if ($username) {
                     $_dbh->do("create database \"$database\" with owner $username") or die $!;
                 } else {
+                    $created = 1;
                     $_dbh->do("create database \"$database\"") or die $!;
                 }
                 $_dbh->disconnect;
@@ -82,6 +92,18 @@ package BBS::Migrator {
                 ( return DBI->connect(@{ $self->dsn }) ) or die $!;
             };
             $dbh->disconnect;
+
+            unless ($created) {
+                # Checking commited schema
+                try {
+                    $self->git->add($self->sql_file);
+                    $self->git->commit({ message => 'Updated sql schema by migrate script' });
+                } catch {
+                    die "Nothing changes";
+                };
+            }
+
+            # Migrate
             $self->migrator->migrate;
             say "Completed";
         }

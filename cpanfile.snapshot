@@ -263,6 +263,21 @@ DISTRIBUTIONS
       File::Spec 0.80
       perl 5.008001
       warnings 0
+  File-chdir-0.1010
+    pathname: D/DA/DAGOLDEN/File-chdir-0.1010.tar.gz
+    provides:
+      File::chdir 0.1010
+      File::chdir::ARRAY 0.1010
+      File::chdir::SCALAR 0.1010
+    requirements:
+      Carp 0
+      Cwd 3.16
+      Exporter 0
+      ExtUtils::MakeMaker 6.17
+      File::Spec::Functions 3.27
+      perl 5.006
+      strict 0
+      vars 0
   Git-Repository-1.320
     pathname: B/BO/BOOK/Git-Repository-1.320.tar.gz
     provides:
@@ -296,6 +311,29 @@ DISTRIBUTIONS
       Exporter 0
       ExtUtils::MakeMaker 0
       perl 5.006
+      strict 0
+      warnings 0
+  Git-Wrapper-0.047
+    pathname: G/GE/GENEHACK/Git-Wrapper-0.047.tar.gz
+    provides:
+      Git::Wrapper 0.047
+      Git::Wrapper::Exception 0.047
+      Git::Wrapper::File::RawModification 0.047
+      Git::Wrapper::Log 0.047
+      Git::Wrapper::Status 0.047
+      Git::Wrapper::Statuses 0.047
+    requirements:
+      Devel::CheckBin 0
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      File::Temp 0
+      File::chdir 0
+      IPC::Cmd 0
+      IPC::Open3 0
+      Scalar::Util 0
+      Sort::Versions 0
+      Symbol 0
+      overload 0
       strict 0
       warnings 0
   GitDDL-0.03
@@ -826,6 +864,16 @@ DISTRIBUTIONS
       XML::Writer 0.500
       YAML 0.66
       perl 5.008001
+  Sort-Versions-1.62
+    pathname: N/NE/NEILB/Sort-Versions-1.62.tar.gz
+    provides:
+      Sort::Versions 1.62
+    requirements:
+      Exporter 0
+      ExtUtils::MakeMaker 0
+      perl 5.006
+      strict 0
+      warnings 0
   String-Random-0.29
     pathname: S/SH/SHLOMIF/String-Random-0.29.tar.gz
     provides:
