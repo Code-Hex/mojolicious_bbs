@@ -2,7 +2,7 @@ CREATE TABLE "thread" (
   "id" serial NOT NULL,
   "name" character varying(255) NOT NULL,
   "category" character varying(255) NOT NULL,
-  "created_at" timestamp NOT NULL,
+  "created_at" timestamp DEFAULT 'now()' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "category_idx" on "thread" ("category");
@@ -16,7 +16,7 @@ CREATE TABLE "writer" (
   "name" character varying(255) NOT NULL,
   "email" character varying(40) NOT NULL,
   "message" text NOT NULL,
-  "created_at" timestamp NOT NULL,
+  "created_at" timestamp DEFAULT 'now()' NOT NULL,
   PRIMARY KEY ("thread_id")
 );
 CREATE INDEX "thread_id_idx" on "writer" ("thread_id");
