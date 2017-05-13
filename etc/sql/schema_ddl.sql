@@ -16,6 +16,7 @@ CREATE TABLE "writer" (
   "name" character varying(255) NOT NULL,
   "email" character varying(40) NOT NULL,
   "message" text NOT NULL,
+  "abone" smallint DEFAULT 0 NOT NULL,
   "created_at" timestamp DEFAULT 'now()' NOT NULL,
   PRIMARY KEY ("thread_id")
 );
