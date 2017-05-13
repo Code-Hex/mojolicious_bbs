@@ -10,6 +10,7 @@ package BBS::Migrator {
     use DBI;
     use FindBin;
     use Try::Tiny;
+    use Term::UI;
     use Term::ReadLine;
     use v5.10;
 
@@ -36,7 +37,7 @@ package BBS::Migrator {
             my $password = $database->{password};
             return +["dbi:Pg:dbname=$dbname", $username, $password, +{ RaiseError => 1 }];
         }
-    )
+    );
 
     has migrator => (
         is      => 'ro',
@@ -53,12 +54,12 @@ package BBS::Migrator {
 
     sub migrate {
         my $self = shift;
-        my $term = Term::ReadLine->new;
+        my $term = Term::ReadLine->new('Migration');
 
         say $self->migrator->diff_to_real_database;
         my $yes = $term->ask_yn(
             prompt => 'Do you want to migrate?',
-            default => 'y',
+            default => 'y'
         );
 
         if ($yes) {
@@ -79,7 +80,7 @@ package BBS::Migrator {
                 $_dbh->disconnect;
 
                 # Retry connect to your specified database.
-                return DBI->connect(@{ $self->dsn }) or die $!;
+                ( return DBI->connect(@{ $self->dsn }) ) or die $!;
             };
             $dbh->disconnect;
             $self->migrator->migrate;

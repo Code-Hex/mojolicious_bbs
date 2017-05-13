@@ -374,6 +374,32 @@ DISTRIBUTIONS
     requirements:
       Exporter::Tiny 0.038
       ExtUtils::MakeMaker 0
+  Log-Message-0.08
+    pathname: B/BI/BINGOS/Log-Message-0.08.tar.gz
+    provides:
+      Log::Message 0.08
+      Log::Message::Config 0.08
+      Log::Message::Handlers 0.08
+      Log::Message::Item 0.08
+    requirements:
+      ExtUtils::MakeMaker 0
+      File::Spec 0
+      Locale::Maketext::Simple 0
+      Module::Load 0
+      Params::Check 0
+      Test::More 0
+      if 0
+  Log-Message-Simple-0.10
+    pathname: B/BI/BINGOS/Log-Message-Simple-0.10.tar.gz
+    provides:
+      Log::Message::Handlers 0.10
+      Log::Message::Simple 0.10
+    requirements:
+      Carp 0
+      ExtUtils::MakeMaker 0
+      Log::Message 0
+      Test::More 0
+      if 0
   Module-Implementation-0.09
     pathname: D/DR/DROLSKY/Module-Implementation-0.09.tar.gz
     provides:
@@ -862,6 +888,19 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  Term-UI-0.46
+    pathname: B/BI/BINGOS/Term-UI-0.46.tar.gz
+    provides:
+      Term::UI 0.46
+      Term::UI::History 0.46
+    requirements:
+      ExtUtils::MakeMaker 0
+      Locale::Maketext::Simple 0
+      Log::Message::Simple 0
+      Params::Check 0
+      Term::ReadLine 0
+      Test::More 0.31
+      if 0
   Test-Differences-0.64
     pathname: D/DC/DCANTRELL/Test-Differences-0.64.tar.gz
     provides:

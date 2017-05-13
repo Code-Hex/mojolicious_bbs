@@ -69,7 +69,10 @@ our %environment = (
     '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Mojolicious-7.31/blib/lib',
     '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Mojolicious-Plugin-CSRFDefender-0.0.8/blib/lib',
     '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Path-Class-0.37/blib/lib',
-    '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/String-Random-0.29/blib/lib'
+    '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/String-Random-0.29/blib/lib',
+    '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Term-UI-0.46/blib/lib',
+    '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-Simple-0.10/blib/lib',
+    '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-0.08/blib/lib'
   ],
   'path' => [
     '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/DBI-1.636/blib/script',
@@ -198,6 +201,11 @@ our %environment = (
     'Lexical/SealRequireHints.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Lexical-SealRequireHints-0.010/blib/lib/Lexical/SealRequireHints.pm',
     'List/MoreUtils.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/List-MoreUtils-0.419/blib/lib/List/MoreUtils.pm',
     'List/MoreUtils/PP.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/List-MoreUtils-0.419/blib/lib/List/MoreUtils/PP.pm',
+    'Log/Message.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-0.08/blib/lib/Log/Message.pm',
+    'Log/Message/Config.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-0.08/blib/lib/Log/Message/Config.pm',
+    'Log/Message/Handlers.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-0.08/blib/lib/Log/Message/Handlers.pm',
+    'Log/Message/Item.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-0.08/blib/lib/Log/Message/Item.pm',
+    'Log/Message/Simple.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Log-Message-Simple-0.10/blib/lib/Log/Message/Simple.pm',
     'Method/Generate/Accessor.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Moo-2.003002/blib/lib/Method/Generate/Accessor.pm',
     'Method/Generate/BuildAll.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Moo-2.003002/blib/lib/Method/Generate/BuildAll.pm',
     'Method/Generate/Constructor.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Moo-2.003002/blib/lib/Method/Generate/Constructor.pm',
@@ -445,6 +453,8 @@ our %environment = (
     'Sub/Uplevel.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Sub-Uplevel-0.2800/blib/lib/Sub/Uplevel.pm',
     'System/Command.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/System-Command-1.118/blib/lib/System/Command.pm',
     'System/Command/Reaper.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/System-Command-1.118/blib/lib/System/Command/Reaper.pm',
+    'Term/UI.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Term-UI-0.46/blib/lib/Term/UI.pm',
+    'Term/UI/History.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Term-UI-0.46/blib/lib/Term/UI/History.pm',
     'Test/Differences.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Test-Differences-0.64/blib/lib/Test/Differences.pm',
     'Test/Exception.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Test-Exception-0.43/blib/lib/Test/Exception.pm',
     'Test/Git.pm' => '/Users/codehex/.carmel/5.24.1-darwin-2level/builds/Git-Repository-1.320/blib/lib/Test/Git.pm',
@@ -490,7 +500,8 @@ our %environment = (
         'GitDDL::Migrator' => '0',
         'Mojolicious::Plugin::CSRFDefender' => '0',
         'String::Random' => '0',
-        'Term::ReadLine' => '0'
+        'Term::ReadLine' => '0',
+        'Term::UI' => '0'
       }
     }
   },
