@@ -7,7 +7,7 @@ create_table 'thread' => columns {
     integer   'id',         primary_key, unsigned, auto_increment;
     varchar   'name',       not_null;
     varchar   'category',   not_null;
-    timestamp 'created_at', not_null, default => 'now()';
+    timestamp 'created_at', not_null;
 
     has_many 'writer';
 
@@ -19,7 +19,7 @@ create_table 'writer' => columns {
     integer   'thread_id',  primary_key;
     varchar   'name',       not_null;
     varchar   'email',      not_null, size => 40;
-    timestamp 'created_at', not_null, default => 'now()';
+    timestamp 'created_at', not_null;
 
     # 外部キーの制約を行うことで, thread.id に格納さている
     # id 以外の数値を writer.thread_id へ格納することができない
@@ -35,8 +35,8 @@ create_table 'message' => columns {
     integer   'writer_id',  primary_key;
     text      'text',       not_null;
     tinyint   'abone',      not_null, default => 0;
-    timestamp 'created_at', not_null, default => 'now()';
-    timestamp 'updated_at', not_null, default => 'now()';
+    timestamp 'created_at', not_null;
+    timestamp 'updated_at', not_null;
 
     belongs_to 'writer';
 
