@@ -96,7 +96,7 @@ package BBS::Migrator {
             unless ($created) {
                 # Checking commited schema
                 try {
-                    $self->git->add($self->sql_file);
+                    $self->git->add($self->sql_file, 'lib/BBS/Model/Schema.pm');
                     $self->git->commit({ message => 'Updated sql schema by migrate script' });
                 } catch {
                     die "Nothing changes";
