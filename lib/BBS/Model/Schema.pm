@@ -9,36 +9,22 @@ create_table 'thread' => columns {
     varchar   'category',   not_null;
     timestamp 'created_at', not_null;
 
-    has_many 'writer';
+    has_many 'message';
 
     add_index 'category_idx' => ['category'];
 };
 
-create_table 'writer' => columns {
-    integer   'id',         primary_key, unsigned, auto_increment;
-    integer   'thread_id',  primary_key;
-    varchar   'name',       not_null;
-    varchar   'email',      not_null, size => 40;
-    timestamp 'created_at', not_null;
-
-    # 外部キーの制約を行うことで, thread.id に格納さている
-    # id 以外の数値を writer.thread_id へ格納することができない
-    belongs_to 'thread';
-
-    has_many 'message';
-
-    add_index 'thread_id_idx' => ['thread_id'];
-};
-
 create_table 'message' => columns {
     integer   'id',         primary_key, unsigned, auto_increment;
-    integer   'writer_id',  primary_key;
+    varchar   'posted_by',  not_null;
+    varchar   'email',      not_null;
     text      'text',       not_null;
     tinyint   'abone',      not_null, default => 0;
+    integer   'thread_id',  primary_key;
     timestamp 'created_at', not_null;
     timestamp 'updated_at', not_null;
 
-    belongs_to 'writer';
+    belongs_to 'thread';
 
     add_index 'message_id_idx' => ['id'];
 };
