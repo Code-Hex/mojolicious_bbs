@@ -13,12 +13,6 @@ sub startup {
     # For CSRF
     $self->plugin('Mojolicious::Plugin::CSRFDefender');
 
-    # You can use methods in controller added by helpers
-    $self->helpers(dbh => sub {
-        my $self = shift;
-
-    });
-
     # Router
     my $r = $self->routes;
 
