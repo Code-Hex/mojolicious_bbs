@@ -7,21 +7,21 @@ use v5.10;
 use FindBin;
 use GitDDL::Migrator;
 package BBS::Migrator {
+    use v5.10;
+
     use DBI;
     use FindBin;
     use Try::Tiny;
     use Term::UI;
     use Term::ReadLine;
-    use Git::Wrapper;
-    use v5.10;
+    use SQL::Translator;
+    use SQL::Translator::Diff;
 
     use Mouse;
 
-    has sql_file => (
-        is       => 'ro',
-        required => 1,
-    );
-
+    has sql => (is => 'ro', required => 1);
+    has sql_file => (is => 'ro', required => 1);
+    
     has conf => (
         is => 'ro',
         default => sub { do "$FindBin::Bin/../etc/bbs.conf" or die $! }
@@ -40,24 +40,31 @@ package BBS::Migrator {
         }
     );
 
-    has migrator => (
-        is      => 'ro',
-        lazy    => 1,
-        default => sub {
-            my $self = shift;
-            return GitDDL::Migrator->new(
-                work_tree => "$FindBin::Bin/../", # git working directory
-                ddl_file  => $self->sql_file,
-                dsn       => $self->dsn
-            );
-        }
-    );
+    sub _diff {
+        my $self = shift;
+        my $src = do {
+            my $dbh = DBI->connect(@{ $self->dsn });
+            SQL::Translator->new(
+                parser      => 'DBI',
+                parser_args => +{ dbh => $dbh },
+            )->translate;
+        };
 
-    has git => (
-        is      => 'ro',
-        lazy    => 1,
-        default => sub { Git::Wrapper->new("$FindBin::Bin/../") }
-    );
+        my $target = do {
+            SQL::Translator->new(
+                parser   => $self->sql,
+                filename => "$FindBin::Bin/../" . $self->sql_file,
+            )->translate;
+        };
+
+        my $std = SQL::Translator::Diff->new(+{
+            output_db     => $self->sql,
+            source_schema => $src,
+            target_schema => $target,
+        });
+
+        $std->compute_differences->produce_diff_sql;
+    }
 
     sub migrate {
         my $self = shift;
@@ -76,14 +83,13 @@ package BBS::Migrator {
                 DBI->connect(@{ $self->dsn });
             } catch {
                 # If does not exist your specified database,
-                # create and will return connected session.
+                # create and this will return connected session.
                 my $database = $self->conf->{database}->{name};
                 my $username = $self->conf->{database}->{username};
                 my $_dbh = DBI->connect('dbi:Pg:dbname=postgres', '', '', +{ RaiseError => 1 }) or die $!;
                 if ($username) {
                     $_dbh->do("create database \"$database\" with owner $username") or die $!;
                 } else {
-                    $created = 1;
                     $_dbh->do("create database \"$database\"") or die $!;
                 }
                 $_dbh->disconnect;
@@ -91,20 +97,22 @@ package BBS::Migrator {
                 # Retry connect to your specified database.
                 ( return DBI->connect(@{ $self->dsn }) ) or die $!;
             };
-            $dbh->disconnect;
-
-            unless ($created) {
-                # Checking commited schema
-                try {
-                    $self->git->add($self->sql_file, 'lib/BBS/Model/Schema.pm');
-                    $self->git->commit({ message => 'Updated sql schema by migrate script' });
-                } catch {
-                    die "Nothing changes";
-                };
-            }
 
             # Migrate
-            $self->migrator->migrate;
+            my @drops = ();
+            for my $statement (split /\n/, $self->_diff) {
+#                if ($statement =~ /\ADROP.*\z/) {
+#                   push @drops, $&;
+#                } else {
+                    say $statement;
+#                }
+            }
+
+            for my $drop (@drops) {
+                say $drop;
+            }
+            $dbh->disconnect;
+
             say "Completed";
         }
     }
@@ -128,7 +136,7 @@ sub main {
     say "Create schema file: $sql_file";
     create_schema($sql_file);
 
-    my $migrator = BBS::Migrator->new(sql_file => "${sql_path}/schema_ddl.sql");
+    my $migrator = BBS::Migrator->new(sql => 'PostgreSQL', sql_file => "${sql_path}/schema_ddl.sql");
     $migrator->migrate;
 }
 
